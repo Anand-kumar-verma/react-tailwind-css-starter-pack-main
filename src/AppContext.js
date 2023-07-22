@@ -25,17 +25,29 @@ export default function AppContextProvider({children}){
         dayRs:0,
         volumeRs:9
     }
-]
+        ]
 
     const [handleHeader, sethandleHeader] = useState(0);
-
+    const [loding, setloding] = useState(false);
+   
+    
+    const baseUrl = "http://192.168.1.71:9099"
+    const endPoints = {
+            endlogin:"/api/users/login/",
+            endorderlist:"/api/users/order_list/"
+    }
 
 
     const value = {
         headerData,
         homeCardData,
+        baseUrl,
+        endPoints,
         handleHeader,
-        sethandleHeader
+        sethandleHeader,
+        loding,
+        setloding
+      
     };
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>

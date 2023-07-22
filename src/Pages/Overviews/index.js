@@ -14,18 +14,14 @@ export default function Overviews() {
     state : {
           
       series: [{
-        name: 'TEAM A',
+        name: '',
         type: 'column',
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
+        data: [2, 10, 20, 7, 3]
       }, {
-        name: 'TEAM B',
+        name: '',
         type: 'area',
-        data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
-      }, {
-        name: 'TEAM C',
-        type: 'line',
-        data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]
-      }],
+        data: [4, 5, 4, 7, 10]
+      }, ],
       options: {
         chart: {
           height: 350,
@@ -38,7 +34,7 @@ export default function Overviews() {
         },
         plotOptions: {
           bar: {
-            columnWidth: '50%'
+            columnWidth: '30%'
           }
         },
         
@@ -47,25 +43,28 @@ export default function Overviews() {
           gradient: {
             inverseColors: false,
             shade: 'light',
+            gradientToColors: 'primary',
             type: "vertical",
             opacityFrom: 0.85,
             opacityTo: 0.55,
             stops: [0, 100, 100, 100]
           }
         },
-        labels: ['01/01/2003', '02/01/2003', '03/01/2003', '04/01/2003', '05/01/2003', '06/01/2003', '07/01/2003',
-          '08/01/2003', '09/01/2003', '10/01/2003', '11/01/2003'
+        labels: ['Zone A', 'Zone B', 'Zone C', 'Zone D', 'Zone E'
         ],
         markers: {
           size: 0
         },
         xaxis: {
-          type: 'datetime'
+          type: 'Servings'
         },
         yaxis: {
           title: {
-            text: 'Points',
+            text: 'Servings',
           },
+          categories:[
+            0,0,0,0,0
+          ],
           min: 0
         },
         tooltip: {
@@ -89,21 +88,19 @@ const [state, setstate] = useState({
    options : {
     animationEnabled: true,
     exportEnabled: true,
-    theme: "dark2", // "light1", "dark1", "dark2"
+    theme: "",
     title:{
-      text: "Trip Expenses"
+      text: ""
     },
     data: [{
       type: "pie",
       indexLabel: "{label}: {y}%",		
       startAngle: -90,
       dataPoints: [
-        { y: 20, label: "Airfare" },
-        { y: 24, label: "Food & Drinks" },
-        { y: 20, label: "Accomodation" },
-        { y: 14, label: "Transportation" },
-        { y: 12, label: "Activities" },
-        { y: 10, label: "Misc" }	
+        { y: 20, label: "COD Pending" },
+        { y: 24, label: "Last COD Remitted" },
+        { y: 20, label: "Total COD" },
+        { y: 30, label: "COD Available" }
       ]
     }]
   }
@@ -112,25 +109,88 @@ const [state, setstate] = useState({
 // chart 1 ,2 data points
     const [data,setData] =useState({
         series: [44, 55, 41, 17, 15],
-    options: {
-    chart: {
-    type: "donut",
-    },
-    responsive: [
-    {
-    breakpoint: 480,
-    options: {
-    chart: {
-    width: 200,
-    },
-    legend: {
-    position: "bottom",
-    },
-    },
-    },
-    ],
-    },
+          options: {
+          chart: {
+          type: "donut",
+          },
+          responsive: [
+          {
+          breakpoint: 480,
+          options: {
+          chart: {
+          width: 200,
+          },
+          legend: {
+          position: "bottom",
+          },
+          },
+          },
+          ],
+          },
       })
+
+      const [curiesData, setcuriesData] = useState({
+        state : {
+          label: [44, 55, 13, 33],
+          options: {
+            chart: {
+              width: 380,
+              type: 'donut',
+            },
+            dataLabels: {
+              enabled: false
+            },
+            responsive: [{
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 200
+                },
+                legend: {
+                  show: false
+                }
+              }
+            }],
+            legend: {
+              position: 'right',
+              offsetY: 0,
+              height: 230,
+            }
+          }
+      }
+    })
+
+    const [shipmentData, setshipmentData] = useState({
+      state : {
+        
+        series: [44, 55, 13, 33],
+        options: {
+          chart: {
+            width: 380,
+            type: 'donut',
+          },
+          dataLabels: {
+            enabled: false
+          },
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200
+              },
+              legend: {
+                show: false
+              }
+            }
+          }],
+          legend: {
+            position: 'right',
+            offsetY: 0,
+            height: 230,
+          }
+        }
+    }
+  })
 
       // chart 3 data points
       const [shipmentDetails, setshipmentDetails] = useState({
@@ -138,7 +198,7 @@ const [state, setstate] = useState({
       
           series: [{
             name: 'Servings',
-            data: [44, 55, 41, 67, 22, 43, 21, 33, 45, 31, 87, 65, 35]
+            data: [44, 55, 41, 67, 22, 43]
           }],
           options: {
             annotations: {
@@ -163,11 +223,11 @@ const [state, setstate] = useState({
             plotOptions: {
               bar: {
                 borderRadius: 10,
-                columnWidth: '50%',
+                columnWidth: '30%',
               }
             },
             dataLabels: {
-              enabled: false
+              enabled:false
             },
             stroke: {
               width: 2
@@ -182,8 +242,8 @@ const [state, setstate] = useState({
               labels: {
                 rotate: -45
               },
-              categories: ['Apples', 'Oranges', 'Strawberries', 'Pineapples', 'Mangoes', 'Bananas',
-                'Blackberries', 'Pears', 'Watermelons', 'Cherries', 'Pomegranates', 'Tangerines', 'Papayas'
+              categories: [
+                'TS','PP','In-T','Del','NDR-P','RTO'
               ],
               tickPlacement: 'on'
             },
@@ -191,6 +251,10 @@ const [state, setstate] = useState({
               title: {
                 text: 'Servings',
               },
+              categories:[
+                '20k','40k','60k','80k','100k'
+              ]
+                
             },
             fill: {
               type: 'gradient',
@@ -316,18 +380,18 @@ const [state, setstate] = useState({
 
           {/* chart 1,6 */}
         <div className='  flex justify-between  mt-10'>
-              <div className='p-5 w-[30%] bg-[#FFFF] rounded-lg'>
+              <div className='p-5 w-[40%] bg-[#FFFF] rounded-lg'>
                 <div className='flex justify-between'>
                    <p>Curious Split</p>
                    <p className='opacity-50'>Last 30 days</p>
                 </div>
+                <hr />
                 <div className='opacity-50'>
-                <ReactApexChart
-                      options={data.options}
-                      series={data.series}
-                      type="donut"
-                      width="100%"
-                      />
+                <ReactApexChart 
+                options={curiesData.state.options} 
+                series={curiesData.state.label} 
+                type="donut" 
+                width={380} />
                 </div>
              
               </div>
@@ -350,10 +414,11 @@ const [state, setstate] = useState({
          <div className=' flex justify-between items-center mt-10'>
               <div className='p-5 w-[40%] bg-[#FFFF] rounded-lg'>
                 <div className='flex justify-between'>
-                   <p>Curious Split</p>
+                   <p>Shipment Details</p>
                    <p className='opacity-50'>Last 30 days</p>
                 </div>
-                <div className='opacity-50'>
+                <hr />
+                <div className='opacity-50 mt-2'>
                 <ReactApexChart 
                 options={shipmentDetails.state.options} 
                 series={shipmentDetails.state.series} 
@@ -364,7 +429,12 @@ const [state, setstate] = useState({
               </div>
               
               <div className='w-[40%] h-full p-5 bg-[#FFFF] rounded-lg'>
+                <div className='flex justify-between'>
+                   <p>NDR Details</p>
+                   <p className='opacity-50'>Last 30 days</p>
                    
+                </div>
+                <hr />
             
               <ReactApexChart 
               options={ndrDetails.options} 
@@ -381,10 +451,11 @@ const [state, setstate] = useState({
          <div className='  flex justify-between items-center mt-10'>
               <div className='p-5 w-[40%] bg-[#FFFF] rounded-lg'>
                 <div className='flex justify-between'>
-                   <p>Curious Split</p>
+                   <p>COD Status</p>
                    <p className='opacity-50'>Last 30 days</p>
                 </div>
-                <div className=''>
+                <hr />
+                <div className='mt-2'>
                     <CanvasJSChart options = {state.options} 
                     /* onRef={ref => this.chart = ref} */
                   />
@@ -394,16 +465,15 @@ const [state, setstate] = useState({
               
               <div className='p-5 w-[40%] bg-[#FFFF] rounded-lg'>
                 <div className='flex justify-between'>
-                   <p>Curious Split</p>
+                   <p>Overall Shipment Status</p>
                    <p className='opacity-50'>Last 30 days</p>
                 </div>
                 <div className='opacity-50'>
-                <ReactApexChart
-                      options={data.options}
-                      series={data.series}
-                      type="donut"
-                      width="100%"
-                      />
+                  <ReactApexChart 
+                  options={shipmentData.state.options} 
+                  series={shipmentData.state.series} 
+                  type="donut" 
+                  width={380} />
                 </div>
                
              
@@ -417,7 +487,7 @@ const [state, setstate] = useState({
          <div className='bg-red-100   flex justify-between items-center mt-10'>
               <div className='p-5 w-[100%] bg-[#FFFF] rounded-lg'>
                 <div className='flex justify-between'>
-                   <p>Curious Split</p>
+                   <p>Shipments-Zone Destribution</p>
                    <p className='opacity-50'>Last 30 days</p>
                 </div>
                 <div className='opacity-50'>
@@ -436,155 +506,7 @@ const [state, setstate] = useState({
          <div className=' flex justify-between items-center mt-10 h-60'>
             
          </div>
-
-
-
-
-     {/* chart4?? */}
-        {/* <div className='p-4 opacity-20'>
-        <ReactApexChart options={cir.options} series={cir.series} type="radialBar" height={390} />
-        </div> */}
-            
-    
         </div>
 
-
-//  chart 3
-// class ApexChart extends React.Component {
-//     constructor(props) {
-//       super(props);
-
-//       this.state = {
-      
-//         series: [{
-//           name: 'Servings',
-//           data: [44, 55, 41, 67, 22, 43, 21, 33, 45, 31, 87, 65, 35]
-//         }],
-//         options: {
-//           annotations: {
-//             points: [{
-//               x: 'Bananas',
-//               seriesIndex: 0,
-//               label: {
-//                 borderColor: '#775DD0',
-//                 offsetY: 0,
-//                 style: {
-//                   color: '#fff',
-//                   background: '#775DD0',
-//                 },
-//                 text: 'Bananas are good',
-//               }
-//             }]
-//           },
-//           chart: {
-//             height: 350,
-//             type: 'bar',
-//           },
-//           plotOptions: {
-//             bar: {
-//               borderRadius: 10,
-//               columnWidth: '50%',
-//             }
-//           },
-//           dataLabels: {
-//             enabled: false
-//           },
-//           stroke: {
-//             width: 2
-//           },
-          
-//           grid: {
-//             row: {
-//               colors: ['#fff', '#f2f2f2']
-//             }
-//           },
-//           xaxis: {
-//             labels: {
-//               rotate: -45
-//             },
-//             categories: ['Apples', 'Oranges', 'Strawberries', 'Pineapples', 'Mangoes', 'Bananas',
-//               'Blackberries', 'Pears', 'Watermelons', 'Cherries', 'Pomegranates', 'Tangerines', 'Papayas'
-//             ],
-//             tickPlacement: 'on'
-//           },
-//           yaxis: {
-//             title: {
-//               text: 'Servings',
-//             },
-//           },
-//           fill: {
-//             type: 'gradient',
-//             gradient: {
-//               shade: 'light',
-//               type: "horizontal",
-//               shadeIntensity: 0.25,
-//               gradientToColors: undefined,
-//               inverseColors: true,
-//               opacityFrom: 0.85,
-//               opacityTo: 0.85,
-//               stops: [50, 0, 100]
-//             },
-//           }
-//         },
-      
-      
-//       };
-//     }
-
-  
-
-//     render() {
-//       return (
-        
-
-//   <div id="chart">
-// <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height={350} />
-// </div>
-    
-
-// chart 5
-
-// import React, { Component } from 'react';
-// import CanvasJSReact from '@canvasjs/react-charts';
-// //var CanvasJSReact = require('@canvasjs/react-charts');
- 
-// var CanvasJS = CanvasJSReact.CanvasJS;
-// var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-// class App extends Component {
-// 	render() {
-// 		const options = {
-// 			exportEnabled: true,
-// 			animationEnabled: true,
-// 			title: {
-// 				text: "Website Traffic Sources"
-// 			},
-// 			data: [{
-// 				type: "pie",
-// 				startAngle: 75,
-// 				toolTipContent: "<b>{label}</b>: {y}%",
-// 				showInLegend: "true",
-// 				legendText: "{label}",
-// 				indexLabelFontSize: 16,
-// 				indexLabel: "{label} - {y}%",
-// 				dataPoints: [
-// 					{ y: 18, label: "Direct" },
-// 					{ y: 49, label: "Organic Search" },
-// 					{ y: 9, label: "Paid Search" },
-// 					{ y: 5, label: "Referral" },
-// 					{ y: 19, label: "Social" }
-// 				]
-// 			}]
-// 		}
-// 		return (
-// 		<div>
-// 			<CanvasJSChart options = {options}
-// 				/* onRef={ref => this.chart = ref} */
-// 			/>
-// 			{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
-// 		</div>
-// 		);
-// 	}
-// }
-// module.exports = App;   
   )
 }
