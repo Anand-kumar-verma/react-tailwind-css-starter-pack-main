@@ -10,13 +10,16 @@ import Order from '../Order'
 import Shipment from "../Shipment";
 
 export default function Dashboard() {
-  const { headerData, handleHeader, sethandleHeader } = useContext(AppContext);
+  
+  const [handleHeader, sethandleHeader] = useState(0);
 
+  const headerData = ['Overview', 'Orders','Shipments','NDR','WhatsApp Comm','RTO','Courier','Delays','Tracing Page']
+ 
 
   return (
     <div>
-      <div className="mt-10 flex items-center justify-between bg-[#F3E8FF] py-2 p">
-        <div className="flex gap-8 text-[#2563EB] px-8 ">
+      <div className="mt-10 flex items-center justify-between bg-[#F3E8FF] py-2 flex-wrap">
+        <div className="flex gap-8 text-[#2563EB] px-8 flex-wrap">
           {headerData.map((singleData, index) => {
             return (
               <div

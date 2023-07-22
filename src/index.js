@@ -4,6 +4,8 @@ import App from "./App";
 import "./index.css";
 import AppContextProvider from "./AppContext";
 import { BrowserRouter } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -11,6 +13,8 @@ root.render(
    <BrowserRouter>
       <AppContextProvider>
          <App/>
+         {/* <ToastContainer limit={1}/> */}
+         <ToastContainer/>
       </AppContextProvider>
    </BrowserRouter>
 );

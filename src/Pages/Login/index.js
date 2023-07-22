@@ -5,27 +5,61 @@ import { AppContext } from "../../AppContext";
 import Loding from "../../component/Loding";
 import axios from "axios";
 import FormData from "form-data";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import logo from "../Images/logo.png";
+import { toast } from "react-toastify";
+import GoogleButton from 'react-google-button'
+import { WidthFull } from "@mui/icons-material";
+import { FacebookLoginButton,GoogleLoginButton } from "react-social-login-buttons";
+import firebase from 'firebase'
+import {auth} from '../../firebase.js'
+import { useAuthState } from 'react-firebase-hooks/auth'
+// import {signInWithPopup,FacebookAuthProvider} from 'react-firebase-hooks/auth';
+
 
 export default function Login() {
-  const { loding, setloding, baseUrl, endPoints } = useContext(AppContext);
+  const [user] = useAuthState(auth)
+  function signInWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider()
+    auth.signInWithPopup(provider)
+}
 
+
+  function signInWithFacebook() {
+    const provider = new firebase.auth.FacebookAuthProvider()
+    auth.signInWithPopup(provider)
+    .then(()=>{
+      console.log("Successfully")
+    })
+    .catch((err)=>{
+      console.log(err.message)
+    })
+}
+
+
+
+
+  const { role } = useParams();
+// console.log(role)
+  const { loding, setloding, baseUrl, endPoints } = useContext(AppContext);
+ 
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
 
   async function submithandler(data) {
     setloding(true);
-    if (!data.username) {
-      alert("Please enter a username");
-      navigate("/");
-      return;
-    }
-    if (!data.password) {
-      alert("Please enter a password");
-      navigate("/");
-      return;
-    }
+    // if (!data.username) {
+    //   alert("Please enter a username");
+  
+    //   navigate("/");
+    //   return;
+    // }
+    // if (!data.password) {
+    //   alert("Please enter a password");
+      
+    //   navigate("/");
+    //   return;
+    // }
 
     let formData = new FormData();
     formData.append("username", data.username);
@@ -33,7 +67,7 @@ export default function Login() {
 
     try {
       const response = await axios.post(
-        `${baseUrl}${endPoints.endlogin}`,
+        `${baseUrl}${role==='superadmin'?endPoints.endsuperuserlogin:endPoints.endlogin}`,
         formData,
         {
           headers: {
@@ -41,32 +75,48 @@ export default function Login() {
           },
         }
       );
-      // console.log(response)
-      // console.log(response.data.token)
-      // console.log(response.data.user_id)
+ 
+      console.log(response);
 
       if (response.data.token && response.data.user_id) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user_id", response.data.user_id);
+        if(role === "superadmin"){
+          localStorage.setItem("role","superadmin")
+        }
       }
-
-      // console.log(localStorage.getItem())
 
       if (response.statusText === "OK") {
-        navigate("/dashboard");
+        toast.success("Login Successfull !")
+        if(localStorage.getItem('role') ==='superadmin'){
+          navigate('/sdashboard')
+        }else{
+          navigate("/dashboard");
+        }
       }
     } catch (e) {
-      //   console.log("Something went wrong");
-      //   console.log(e);
-      alert("Incorrect user ID or password");
+      console.log(e)
+      toast.warn("Incorrect  User Id or Password !")
     }
 
     console.log(localStorage.getItem("token"));
     setloding(false);
   }
+
   useEffect(() => {
+   if(role ==="superadmin"){
+    if(user && localStorage.getItem("token")){
+      navigate('/sdashboard')
+    }else{
+      localStorage.getItem("token") ? navigate('/sdashboard'):navigate("/login/superadmin")
+
+    }
+   }else{
     localStorage.getItem("token") ? navigate("/dashboard") : navigate("/");
+   }
+   
   }, [localStorage.getItem("token")]);
+
 
   return (
     <div>
@@ -124,11 +174,29 @@ export default function Login() {
                       LOGIN
                     </button>
                   </div>
-                  <div className="w-full text-center mt-4  text-black text-opacity-80">
+                  <div className="w-full text-center mt-4  text-black text-opacity-80 cursor-pointer"
+                  onClick={()=>navigate('/signup')}
+                  >
                     New to Logo? <span className="font-bold">Register</span>{" "}
                     Here
                   </div>
                 </form>
+               <div className="w-full mt-3 gap-2 flex items-end justify-between">
+                 <div className="">
+                 <FacebookLoginButton 
+                 onClick={signInWithFacebook}
+                 >
+                  <span>FaceBook Login</span>
+                </FacebookLoginButton>
+                 </div>
+                 <div>
+                 <GoogleLoginButton 
+                 
+                 onClick={signInWithGoogle} 
+
+                 />
+                 </div>
+               </div>
               </div>
             </div>
             {/* // this is circle */}
@@ -141,7 +209,9 @@ export default function Login() {
               <img className="rounded-full p-1 h-20 w-20" src={logo} alt="" />
             </div>
           </div>
+          
         </div>
+        
       )}
     </div>
   );

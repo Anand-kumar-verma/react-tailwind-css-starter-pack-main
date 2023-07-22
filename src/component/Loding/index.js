@@ -6,5 +6,6 @@ export default function index() {
             <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 
     </div>
+    
   )
 }
