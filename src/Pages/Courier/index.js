@@ -2,6 +2,7 @@ import React from 'react'
 import graphImage from '../Images/graphimage.png'
 import { AiOutlineCalendar } from 'react-icons/ai';
 
+
 export default function Courier() {
   return (
     <div className='w-full relative'>
